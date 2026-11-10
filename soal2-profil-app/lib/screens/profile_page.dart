@@ -5,9 +5,14 @@ import '../widgets/info_tile.dart';
 import '../widgets/profile_avatar.dart';
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({super.key, required this.profile});
+  const ProfilePage({
+    super.key,
+    required this.profile,
+    required this.onProfileUpdated,
+  });
 
   final Profile profile;
+  final ValueChanged<Profile> onProfileUpdated;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -30,15 +35,38 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
 
+  Future<void> _bukaEditProfil() async {
+    final Object? hasil = await Navigator.of(
+      context,
+    ).pushNamed('/edit', arguments: _profile);
+
+    if (!mounted || hasil is! Profile) return;
+
+    // Data baru dari Navigator.pop langsung ditampilkan dengan setState().
+    setState(() => _profile = hasil);
+    widget.onProfileUpdated(hasil);
+
+    ScaffoldMessenger.of(context)
+      ..hideCurrentSnackBar()
+      ..showSnackBar(
+        const SnackBar(content: Text('Profil berhasil diperbarui')),
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
       appBar: AppBar(title: const Text('Profil Mahasiswa')),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: _bukaEditProfil,
+        icon: const Icon(Icons.edit_outlined),
+        label: const Text('Edit Profil'),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 110),
           child: Center(
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxWidth: 720),
