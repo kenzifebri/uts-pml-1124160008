@@ -1,0 +1,9 @@
+# Dokumen soal UTS tidak perlu masuk repository.
+Soal UTS*.pdf
+
+# Berkas sistem dan editor.
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
