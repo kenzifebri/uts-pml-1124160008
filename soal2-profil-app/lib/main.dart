@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'screens/login_page.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -9,6 +10,27 @@ void main() {
 class ProfilApp extends StatelessWidget {
   const ProfilApp({super.key});
 
+  Route<dynamic> _onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/profile':
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => Scaffold(
+            appBar: AppBar(title: const Text('Profil Mahasiswa')),
+            body: const Center(
+              child: Text('Halaman profil akan dibuat pada tahap berikutnya.'),
+            ),
+          ),
+        );
+      case '/':
+      default:
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const LoginPage(),
+        );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -17,12 +39,8 @@ class ProfilApp extends StatelessWidget {
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
       themeMode: ThemeMode.system,
-      home: Scaffold(
-        appBar: AppBar(title: const Text('Profil Mahasiswa')),
-        body: const Center(
-          child: Text('Aplikasi profil sedang dibangun.'),
-        ),
-      ),
+      initialRoute: '/',
+      onGenerateRoute: _onGenerateRoute,
     );
   }
 }
