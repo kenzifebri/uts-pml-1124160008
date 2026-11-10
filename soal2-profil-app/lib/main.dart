@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'models/profile.dart';
 import 'screens/login_page.dart';
+import 'screens/profile_page.dart';
 import 'theme/app_theme.dart';
 
 void main() {
@@ -15,12 +17,7 @@ class ProfilApp extends StatelessWidget {
       case '/profile':
         return MaterialPageRoute<void>(
           settings: settings,
-          builder: (_) => Scaffold(
-            appBar: AppBar(title: const Text('Profil Mahasiswa')),
-            body: const Center(
-              child: Text('Halaman profil akan dibuat pada tahap berikutnya.'),
-            ),
-          ),
+          builder: (_) => const ProfilePage(profile: Profile.initial),
         );
       case '/':
       default:
