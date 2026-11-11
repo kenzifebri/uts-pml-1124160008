@@ -9,10 +9,12 @@ class ProfilePage extends StatefulWidget {
     super.key,
     required this.profile,
     required this.onProfileUpdated,
+    required this.onThemeModeChanged,
   });
 
   final Profile profile;
   final ValueChanged<Profile> onProfileUpdated;
+  final ValueChanged<ThemeMode> onThemeModeChanged;
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -57,6 +59,10 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.of(context).pushNamed('/about', arguments: _profile);
   }
 
+  void _ubahModeGelap(bool aktif) {
+    widget.onThemeModeChanged(aktif ? ThemeMode.dark : ThemeMode.light);
+  }
+
   void _keluar() {
     Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> r) {
       return false;
@@ -66,11 +72,19 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
+    final bool isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profil Mahasiswa'),
         actions: <Widget>[
+          IconButton(
+            tooltip: isDark ? 'Mode terang' : 'Mode gelap',
+            onPressed: () => _ubahModeGelap(!isDark),
+            icon: Icon(
+              isDark ? Icons.light_mode_outlined : Icons.dark_mode_outlined,
+            ),
+          ),
           IconButton(
             tooltip: 'Tentang saya',
             onPressed: _bukaTentang,
@@ -80,6 +94,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ),
       drawer: _AppDrawer(
         profile: _profile,
+        isDark: isDark,
         onEdit: () {
           Navigator.of(context).pop();
           _bukaEditProfil();
@@ -88,6 +103,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Navigator.of(context).pop();
           _bukaTentang();
         },
+        onToggleTheme: _ubahModeGelap,
         onLogout: _keluar,
       ),
       floatingActionButton: FloatingActionButton.extended(
@@ -280,9 +296,18 @@ class _ProfileHeader extends StatelessWidget {
             spacing: 8,
             runSpacing: 8,
             children: <Widget>[
-              _HeaderChip(icon: Icons.pin_outlined, label: profile.nim),
-              _HeaderChip(icon: Icons.school_outlined, label: profile.prodi),
-              _HeaderChip(icon: Icons.groups_outlined, label: profile.kelas),
+              _HeaderChip(
+                icon: Icons.pin_outlined,
+                label: profile.nim,
+              ),
+              _HeaderChip(
+                icon: Icons.school_outlined,
+                label: profile.prodi,
+              ),
+              _HeaderChip(
+                icon: Icons.groups_outlined,
+                label: profile.kelas,
+              ),
             ],
           ),
         ],
@@ -373,14 +398,18 @@ class _SectionCard extends StatelessWidget {
 class _AppDrawer extends StatelessWidget {
   const _AppDrawer({
     required this.profile,
+    required this.isDark,
     required this.onEdit,
     required this.onAbout,
+    required this.onToggleTheme,
     required this.onLogout,
   });
 
   final Profile profile;
+  final bool isDark;
   final VoidCallback onEdit;
   final VoidCallback onAbout;
+  final ValueChanged<bool> onToggleTheme;
   final VoidCallback onLogout;
 
   @override
@@ -429,6 +458,16 @@ class _AppDrawer extends StatelessWidget {
             leading: const Icon(Icons.info_outline),
             title: const Text('Tentang Saya'),
             onTap: onAbout,
+          ),
+          const Divider(),
+          SwitchListTile(
+            secondary: Icon(
+              isDark ? Icons.dark_mode : Icons.light_mode_outlined,
+            ),
+            title: const Text('Mode Gelap'),
+            subtitle: Text(isDark ? 'Aktif' : 'Nonaktif'),
+            value: isDark,
+            onChanged: onToggleTheme,
           ),
           const Divider(),
           ListTile(

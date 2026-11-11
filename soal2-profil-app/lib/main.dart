@@ -19,7 +19,12 @@ class ProfilApp extends StatefulWidget {
 }
 
 class _ProfilAppState extends State<ProfilApp> {
+  ThemeMode _themeMode = ThemeMode.system;
   Profile _profile = Profile.initial;
+
+  void _ubahThemeMode(ThemeMode mode) {
+    setState(() => _themeMode = mode);
+  }
 
   void _perbaruiProfil(Profile profile) {
     setState(() => _profile = profile);
@@ -27,21 +32,19 @@ class _ProfilAppState extends State<ProfilApp> {
 
   Route<dynamic> _onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case '/':
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => const LoginPage(),
+        );
       case '/profile':
         return MaterialPageRoute<void>(
           settings: settings,
           builder: (_) => ProfilePage(
             profile: _profile,
             onProfileUpdated: _perbaruiProfil,
+            onThemeModeChanged: _ubahThemeMode,
           ),
-        );
-      case '/about':
-        final Profile profilTentang = settings.arguments is Profile
-            ? settings.arguments! as Profile
-            : _profile;
-        return MaterialPageRoute<void>(
-          settings: settings,
-          builder: (_) => AboutPage(profile: profilTentang),
         );
       case '/edit':
         final Profile profilEdit = settings.arguments is Profile
@@ -51,7 +54,14 @@ class _ProfilAppState extends State<ProfilApp> {
           settings: settings,
           builder: (_) => EditProfilePage(profile: profilEdit),
         );
-      case '/':
+      case '/about':
+        final Profile profilTentang = settings.arguments is Profile
+            ? settings.arguments! as Profile
+            : _profile;
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => AboutPage(profile: profilTentang),
+        );
       default:
         return MaterialPageRoute<void>(
           settings: settings,
@@ -67,7 +77,7 @@ class _ProfilAppState extends State<ProfilApp> {
       debugShowCheckedModeBanner: false,
       theme: AppTheme.light(),
       darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
+      themeMode: _themeMode,
       initialRoute: '/',
       onGenerateRoute: _onGenerateRoute,
     );
