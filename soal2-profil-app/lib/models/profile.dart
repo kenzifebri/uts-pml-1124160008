@@ -37,7 +37,7 @@ class Profile {
         'Mahasiswa Teknik Informatika yang tertarik pada pengembangan aplikasi '
         'mobile dan web. Senang mempelajari hal baru, bekerja dalam tim, dan '
         'membangun aplikasi yang bermanfaat bagi banyak orang.',
-    fotoAsset: 'assets/images/profile.png',
+    fotoAsset: 'assets/images/profile.jpeg',
   );
 
   String get inisial {
