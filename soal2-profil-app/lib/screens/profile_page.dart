@@ -57,6 +57,12 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.of(context).pushNamed('/about', arguments: _profile);
   }
 
+  void _keluar() {
+    Navigator.of(context).pushNamedAndRemoveUntil('/', (Route<dynamic> r) {
+      return false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
@@ -72,10 +78,47 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ],
       ),
+      drawer: _AppDrawer(
+        profile: _profile,
+        onEdit: () {
+          Navigator.of(context).pop();
+          _bukaEditProfil();
+        },
+        onAbout: () {
+          Navigator.of(context).pop();
+          _bukaTentang();
+        },
+        onLogout: _keluar,
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _bukaEditProfil,
         icon: const Icon(Icons.edit_outlined),
         label: const Text('Edit Profil'),
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: 0,
+        onDestinationSelected: (int index) {
+          if (index == 1) {
+            _bukaEditProfil();
+          } else if (index == 2) {
+            _bukaTentang();
+          }
+        },
+        destinations: const <NavigationDestination>[
+          NavigationDestination(
+            icon: Icon(Icons.person_outline),
+            selectedIcon: Icon(Icons.person),
+            label: 'Profil',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.edit_outlined),
+            label: 'Edit',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.info_outline),
+            label: 'Tentang',
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -321,6 +364,78 @@ class _SectionCard extends StatelessWidget {
           ),
           ...children,
           const SizedBox(height: 8),
+        ],
+      ),
+    );
+  }
+}
+
+class _AppDrawer extends StatelessWidget {
+  const _AppDrawer({
+    required this.profile,
+    required this.onEdit,
+    required this.onAbout,
+    required this.onLogout,
+  });
+
+  final Profile profile;
+  final VoidCallback onEdit;
+  final VoidCallback onAbout;
+  final VoidCallback onLogout;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+
+    return Drawer(
+      child: ListView(
+        padding: EdgeInsets.zero,
+        children: <Widget>[
+          UserAccountsDrawerHeader(
+            margin: EdgeInsets.zero,
+            currentAccountPicture: ProfileAvatar(
+              asset: profile.fotoAsset,
+              inisial: profile.inisial,
+              radius: 36,
+            ),
+            accountName: Text(
+              profile.nama,
+              style: const TextStyle(fontWeight: FontWeight.w700),
+            ),
+            accountEmail: Text(profile.email),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[
+                  theme.colorScheme.primary,
+                  theme.colorScheme.tertiary,
+                ],
+              ),
+            ),
+          ),
+          ListTile(
+            leading: const Icon(Icons.person_outline),
+            title: const Text('Profil'),
+            trailing: const Icon(Icons.check, size: 18),
+            onTap: () => Navigator.of(context).pop(),
+          ),
+          ListTile(
+            leading: const Icon(Icons.edit_outlined),
+            title: const Text('Edit Profil'),
+            onTap: onEdit,
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text('Tentang Saya'),
+            onTap: onAbout,
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Keluar'),
+            onTap: onLogout,
+          ),
         ],
       ),
     );
