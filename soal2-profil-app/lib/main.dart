@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'models/profile.dart';
+import 'screens/about_page.dart';
 import 'screens/edit_profile_page.dart';
 import 'screens/login_page.dart';
 import 'screens/profile_page.dart';
@@ -33,6 +34,14 @@ class _ProfilAppState extends State<ProfilApp> {
             profile: _profile,
             onProfileUpdated: _perbaruiProfil,
           ),
+        );
+      case '/about':
+        final Profile profilTentang = settings.arguments is Profile
+            ? settings.arguments! as Profile
+            : _profile;
+        return MaterialPageRoute<void>(
+          settings: settings,
+          builder: (_) => AboutPage(profile: profilTentang),
         );
       case '/edit':
         final Profile profilEdit = settings.arguments is Profile

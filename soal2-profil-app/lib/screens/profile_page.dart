@@ -53,12 +53,25 @@ class _ProfilePageState extends State<ProfilePage> {
       );
   }
 
+  void _bukaTentang() {
+    Navigator.of(context).pushNamed('/about', arguments: _profile);
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Profil Mahasiswa')),
+      appBar: AppBar(
+        title: const Text('Profil Mahasiswa'),
+        actions: <Widget>[
+          IconButton(
+            tooltip: 'Tentang saya',
+            onPressed: _bukaTentang,
+            icon: const Icon(Icons.info_outline),
+          ),
+        ],
+      ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _bukaEditProfil,
         icon: const Icon(Icons.edit_outlined),
