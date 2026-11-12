@@ -18,12 +18,13 @@ class ProfileAvatar extends StatelessWidget {
 
     return CircleAvatar(
       radius: radius,
-      backgroundColor: theme.colorScheme.primaryContainer,
+      backgroundColor: theme.colorScheme.surface,
+      foregroundColor: theme.colorScheme.primary,
       foregroundImage: AssetImage(asset),
       child: Text(
         inisial,
         style: theme.textTheme.headlineSmall?.copyWith(
-          color: theme.colorScheme.onPrimaryContainer,
+          color: theme.colorScheme.primary,
           fontWeight: FontWeight.w700,
         ),
       ),

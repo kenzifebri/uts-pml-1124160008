@@ -64,23 +64,10 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
-    final bool isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: <Color>[
-              theme.colorScheme.primaryContainer,
-              theme.colorScheme.surface,
-              isDark
-                  ? theme.colorScheme.surfaceContainerHighest
-                  : const Color(0xFFE8F3F0),
-            ],
-          ),
-        ),
+      body: ColoredBox(
+        color: theme.scaffoldBackgroundColor,
         child: SafeArea(
           child: Center(
             child: SingleChildScrollView(
@@ -96,16 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                         height: 72,
                         decoration: BoxDecoration(
                           color: theme.colorScheme.primary,
-                          borderRadius: BorderRadius.circular(22),
-                          boxShadow: <BoxShadow>[
-                            BoxShadow(
-                              color: theme.colorScheme.primary.withValues(
-                                alpha: 0.3,
-                              ),
-                              blurRadius: 24,
-                              offset: const Offset(0, 10),
-                            ),
-                          ],
+                          borderRadius: BorderRadius.circular(20),
                         ),
                         child: Icon(
                           Icons.person_search_outlined,

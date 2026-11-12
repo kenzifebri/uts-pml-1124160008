@@ -244,22 +244,9 @@ class _ProfileHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(28),
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: <Color>[
-            scheme.primary,
-            Color.lerp(scheme.primary, scheme.tertiary, 0.55)!,
-          ],
-        ),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: scheme.primary.withValues(alpha: 0.25),
-            blurRadius: 26,
-            offset: const Offset(0, 12),
-          ),
-        ],
+        color: scheme.primaryContainer,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Column(
         children: <Widget>[
@@ -267,7 +254,10 @@ class _ProfileHeader extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: scheme.onPrimary, width: 3),
+              border: Border.all(
+                color: scheme.onPrimaryContainer.withValues(alpha: 0.3),
+                width: 2,
+              ),
             ),
             child: ProfileAvatar(
               asset: profile.fotoAsset,
@@ -280,14 +270,14 @@ class _ProfileHeader extends StatelessWidget {
             profile.nama,
             textAlign: TextAlign.center,
             style: theme.textTheme.headlineSmall?.copyWith(
-              color: scheme.onPrimary,
+              color: scheme.onPrimaryContainer,
             ),
           ),
           const SizedBox(height: 4),
           Text(
             '@${profile.panggilan.toLowerCase()}',
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: scheme.onPrimary.withValues(alpha: 0.8),
+              color: scheme.onPrimaryContainer.withValues(alpha: 0.7),
             ),
           ),
           const SizedBox(height: 12),
@@ -329,19 +319,19 @@ class _HeaderChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
       decoration: BoxDecoration(
-        color: scheme.onPrimary.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(999),
-        border: Border.all(color: scheme.onPrimary.withValues(alpha: 0.25)),
+        color: scheme.surface,
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: scheme.outlineVariant),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Icon(icon, size: 15, color: scheme.onPrimary),
+          Icon(icon, size: 15, color: scheme.onSurfaceVariant),
           const SizedBox(width: 6),
           Text(
             label,
             style: TextStyle(
-              color: scheme.onPrimary,
+              color: scheme.onSurface,
               fontSize: 12.5,
               fontWeight: FontWeight.w600,
             ),
@@ -429,18 +419,19 @@ class _AppDrawer extends StatelessWidget {
             ),
             accountName: Text(
               profile.nama,
-              style: const TextStyle(fontWeight: FontWeight.w700),
-            ),
-            accountEmail: Text(profile.email),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: <Color>[
-                  theme.colorScheme.primary,
-                  theme.colorScheme.tertiary,
-                ],
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: theme.colorScheme.onPrimary,
               ),
+            ),
+            accountEmail: Text(
+              profile.email,
+              style: TextStyle(
+                color: theme.colorScheme.onPrimary.withValues(alpha: 0.8),
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary,
             ),
           ),
           ListTile(
