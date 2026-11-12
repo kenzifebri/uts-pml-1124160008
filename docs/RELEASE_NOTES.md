@@ -7,8 +7,8 @@
 ## Berkas APK
 
 - **Nama file:** `app-release.apk`
-- **Ukuran:** 49.029.974 byte (± 46,8 MB)
-- **SHA-256:** `EF7109A6F1E368ECD19C2FED51041A67A6B3075267C5AAC15D96F0201761968A`
+- **Ukuran:** 48.948.054 byte (± 46,7 MB)
+- **SHA-256:** `FD8A1F626B5C5C463DFCC4A3F5A36FF44CD992751B170FF85CCD86A4074EA6EC`
 
 APK dapat diunduh dari halaman
 [GitHub Releases v1.0.0](https://github.com/kenzifebri/uts-pml-1124160008/releases/tag/v1.0.0).
