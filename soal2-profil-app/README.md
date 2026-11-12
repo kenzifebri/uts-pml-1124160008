@@ -16,6 +16,12 @@ flutter run
 flutter build apk --release
 ```
 
+## Rilis APK
+
+APK versi **v1.0.0** dapat diunduh dari GitHub Releases:
+
+<https://github.com/kenzifebri/uts-pml-1124160008/releases/download/v1.0.0/app-release.apk>
+
 ## Pemeriksaan
 
 ```bash
